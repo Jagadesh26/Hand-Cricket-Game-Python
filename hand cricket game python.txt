@@ -1,0 +1,171 @@
+import numpy as np
+import pandas as pd
+import sys       
+print("\n")
+print("----------------------------WELCOME TO THE GAME------------------------------------")
+print("\n")
+loop_control=True
+loop_control_com=True
+bat_score_list=[]
+ball_score=[]
+over_list=[]
+ball_score_play=[]
+combat_score_list_need=[]
+combat_score_list=[]
+com_over_list=[]
+over_count=0
+ball_count=0
+score=0
+score1=0
+com_score=0
+com_ball_count=0
+com_over_count=0
+player_name=input('enter the name of player')
+print("""select BAT or BOWL
+            option 1 = bat
+            option 2 = bowl""")          
+toss_play=int(input('select to BAT or BOWL'))
+if toss_play==1:
+    print('player {} selected to BAT first'.format(player_name))
+    while loop_control:
+        print("palyer {} is bating".format(player_name))
+        com_bowl=np.random.randint(1,7)
+        player_bat=int(input("let's play"))
+        if player_bat != com_bowl:
+            ball_score.append(player_bat)
+            score+=player_bat
+            score1+=player_bat
+            bat_score_list.append(score)
+            ball_count+=1
+            if ball_count==6:
+                ball_count=0
+                over_count+=1
+            else:
+                print("total score {}".format(score))
+            over="{}.{}".format(over_count,ball_count)
+            over_list.append(over)
+            bat_table_dic={"over_list":over_list,"ball_score":ball_score,"total_score":bat_score_list}
+            bat_table=pd.DataFrame(bat_table_dic)
+            print('-----------------------------------------------------------------------------------------')
+            print(bat_table)
+            print('\n')
+            print('Total score and com need to win {}'.format(score))
+            print(com_bowl)
+        elif player_bat == com_bowl:
+            score1+1
+            print('-----------------------------------------------------------------------------------------------')
+            print('')
+            loop_control1=False
+            loop_control=loop_control1
+            print("player {} is out".format(player_name))
+            print("computer to bat")
+            while loop_control_com:
+                com_bat=np.random.randint(1,7)
+                player_bowl=int(input("computer let's play"))
+                if player_bowl != com_bat:
+                    ball_score_play.append(com_bat)
+                    com_score+=com_bat
+                    score-=com_bat
+                    combat_score_list.append(com_score)
+                    combat_score_list_need.append(score)
+                    com_ball_count+=1
+                    if com_ball_count==6:
+                        com_ball_count=0
+                        com_over_count+=1
+                    else:
+                        print('total score {}'.format(com_score))
+                    com_over="{}.{}".format(com_over_count,com_ball_count)
+                    com_over_list.append(com_over)
+                    combat_table_dic={"over_list":com_over_list,"ball_score":ball_score_play,"total_score":combat_score_list,"need to win":combat_score_list_need}
+                    combat_table=pd.DataFrame(combat_table_dic)
+                    print('-----------------------------------------------------------------------------------------')
+                    print(combat_table)
+                    print('\n')
+                    if com_score>score1:
+                        print("computer is win the match")
+                        loop_control_com1=False
+                        loop_control_com=loop_control_com1
+                        print('-----------------------------------------------------------------------------------------------')
+                    else:
+                        print('Total score and com need to win {}'.format(score))
+                elif com_bat==player_bowl:
+                    print("player {} is won the match".format(player_name))
+                    print('player {} won the match by {}'.format(player_name,score))
+                    loop_control_com1=False
+                    loop_control_com=loop_control_com1
+                    print('-----------------------------------------------------------------------------------------------')
+                else:
+                    print('')
+elif toss_play==2:
+    print('player {} selected to Bowl first'.format(player_name))
+    while loop_control_com:
+        com_bat=np.random.randint(1,7)
+        player_bowl=int(input("computer let's play"))
+        if player_bowl != com_bat:
+            ball_score.append(com_bat)
+            com_score+=com_bat
+            com_score1+=com_bat
+            combat_score_list.append(com_score)
+            com_ball_count+=1
+            if com_ball_count==6:
+                com_ball_count=0
+                com_over_count+=1
+            else:
+                print('total score {}'.format(com_score))
+            com_over="{}.{}".format(com_over_count,com_ball_count)
+            com_over_list.append(com_over)
+            combat_table_dic={"over_list":com_over_list,"ball_score":ball_score,"total_score":combat_score_list}
+            combat_table=pd.DataFrame(combat_table_dic)
+            print(combat_table)
+            print('\n')
+            print('Total score {}'.format(com_score))
+        elif player_bowl == com_bat:
+            print('---------------------------------------------------------------------------------------------')
+            loop_control_com1=False
+            loop_control_com=loop_control_com1
+            print('computer is out')
+            print('player need to win the match {}'.format(com_score))
+            print("player to bat")
+            while loop_control:
+                com_bowl=np.random.randint(1,7)
+                player_bat=int(input("player let's play"))
+                if player_bat != com_bowl:
+                    ball_score_play.append(player_bat)
+                    score+=com_bat
+                    com_score-=player_bat
+                    bat_score_list.append(score)
+                    combat_score_list_need.append(com_score)
+                    ball_count+=1
+                    if ball_count==6:
+                        ball_count=0
+                        over_count+=1
+                    else:
+                        print('total score {}'.format(score))
+                    over="{}.{}".format(over_count,ball_count)
+                    over_list.append(over)
+                    bat_table_dic={"over":over_list,"ball_score":ball_score_play,"player_need_to_win":combat_score_list_need,"total_score":bat_score_list}
+                    bat_table=pd.DataFrame(bat_table_dic)
+                    print(bat_table)
+                    print('\n')
+                    print('Total score {}'.format(score))
+                    print('-----------------------------------------------------------------------------------------------')
+                    if score>com_score1:
+                        print('player {} is won the match'.format(player_name))
+                        loop_control1=False
+                        loop_control=loop_control1
+                        print('-----------------------------------------------------------------------------------------------')
+                    else:
+                        print('player need to win {}'.format(com_score))
+                elif com_bowl==player_bat:
+                    print('player {} is out'.format(player_name))
+                    print('computer win the by {} runs'.format(score))
+                    loop_control1=False
+                    loop_control=loop_control1
+                    print('-----------------------------------------------------------------------------------------------')
+                else:
+                    print(" ")                    
+                    
+        else:
+            print('thank you')
+else:
+     print("thank you")
